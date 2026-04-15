@@ -1,68 +1,72 @@
-import java.util.Scanner;
+import java.util.*;
+
 /**
  * ============================================================
- * MAIN CLASS - UseCase4PalindromeCheckerApp
+ * MAIN CLASS - UseCase6PalindromeCheckerApp
  * ============================================================
  *
- * Use Case 4: Character Array Based Validation
+ * Use Case 6: Queue + Stack Fairness Check
  *
  * Description:
- * This class validates a palindrome by converting
- * the string into a character array and comparing
- * characters using the two-pointer technique.
+ * This class demonstrates palindrome validation using
+ * two different data structures:
  *
- * At this stage, the application:
- * - Converts string to char array
- * - Uses start and end pointers
- * - Compares characters efficiently
- * - Displays the result
+ * - Queue (FIFO - First In First Out)
+ * - Stack (LIFO - Last In First Out)
  *
- * This reduces extra memory usage.
+ * Characters are inserted into both structures and then
+ * compared by removing from the front of the queue and
+ * the top of the stack.
+ *
+ * If all characters match, the input string is confirmed
+ * as a palindrome.
+ *
+ * This use case helps understand how FIFO and LIFO
+ * behaviors can be combined for symmetric comparison.
  *
  * @author Developer
- * @version 4.0
+ * @version 6.0
  */
 
 public class PalindromeCheckerApp {
 
     /**
-     * Application entry point for UC4.
-     *
+     * Application entry point for UC6.
      * @param args Command-line arguments
      */
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
+        // Define the input string to validate
+        String input = "civic";
 
-        // Take input from user
-        System.out.print("Enter text: ");
-        String input = sc.nextLine();
+        // Create a Queue to store characters in FIFO order
+        Queue<Character> queue = new LinkedList<>();
 
-        // Convert string to character array
-        char[] chars = input.toCharArray();
+        // Create a Stack to store characters in LIFO order
+        Stack<Character> stack = new Stack<>();
 
-        // Initialize pointers
-        int start = 0;
-        int end = chars.length - 1;
+        // Insert each character into both queue and stack
+        for (char c : input.toCharArray()) {
+            queue.add(c);     // enqueue
+            stack.push(c);    // push
+        }
 
+        // Flag to track palindrome status
         boolean isPalindrome = true;
 
-        // Two-pointer comparison
-        while (start < end) {
+        // Compare characters until the queue becomes empty
+        while (!queue.isEmpty()) {
+            char fromQueue = queue.remove(); // dequeue
+            char fromStack = stack.pop();    // pop
 
-            if (chars[start] != chars[end]) {
+            if (fromQueue != fromStack) {
                 isPalindrome = false;
                 break;
             }
-
-            start++;
-            end--;
         }
 
-        // Display result
+        // Output result
         System.out.println("Input : " + input);
         System.out.println("Is Palindrome? : " + isPalindrome);
-
-        sc.close();
     }
 }
